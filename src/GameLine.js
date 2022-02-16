@@ -11,7 +11,6 @@ const GameLine = (props) => {
         if(word !== null){
             setWordArray(word.split(''));
         }
-        console.log(word);
     }, [props.word]);
 
     const lineIndex = props.index;
@@ -22,7 +21,6 @@ const GameLine = (props) => {
         const userGuess = splitTry;
 
         const stringTry = tryArray.join('');
-        console.log(stringTry);
 
         var wordExists = false;
 
@@ -33,10 +31,8 @@ const GameLine = (props) => {
         }
 
         if(wordExists === false){
-            console.log("You guessed wrong! Setting border red");
             setBoxBorder('4px solid red');
             setTimeout(() => {
-                console.log("Setting right again")
                 setBoxBorder('none');
                 const resetFocus = document.getElementById(`box${lineIndex}-1`);
                 resetFocus.focus();
@@ -49,8 +45,6 @@ const GameLine = (props) => {
             setThirdLetter(userGuess[2]);
             setFourthLetter(userGuess[3]);
             setFifthLetter(userGuess[4]);
-
-            console.log(splitTry);
             
             for(let i = 0; i < wordArray.length; i++){
                 if(splitTry[i] === wordArray[i]){
@@ -80,18 +74,11 @@ const GameLine = (props) => {
                         idxT = splitTry.indexOf(splitTry[i], idxT + 1);
                     }
                     if(indexOnTry.length > indexOnWord.length){
-                        console.log("Temos um problema com esta letra")
-                        console.log("On Word:" + indexOnWord);
-                        console.log("On Try:" + indexOnTry);
                         const arrayToChange = [...indexOnTry];
-
-                        console.log("Array to change: " + arrayToChange);
-                        console.log(indexOnWord.length)
                         for(let i = 0; i < indexOnWord.length; i++){
                             const toExtract = indexOnWord[i]
                             arrayToChange.splice(arrayToChange.indexOf(toExtract), 1);
                         }   
-                        console.log("Array to change after: " + arrayToChange);
                         for(let i = 0; i < arrayToChange.length; i++){
                             colors[arrayToChange[i]] = 'red';
                         }

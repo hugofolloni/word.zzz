@@ -10,7 +10,7 @@ const Game = () => {
   const everyWordArray = [];
 
   for(let i = 0; i < jsonFile.length; i++){
-    everyWordArray.push(jsonFile[i].Name);
+    everyWordArray.push(jsonFile[i].Name.toLowerCase());
   }
 
   useEffect(() => {

@@ -7,7 +7,7 @@ const GameLine = (props) => {
 
     const [wordArray, setWordArray] = useState([]);
     useEffect(() => {
-        const word = props.word;
+        const word = 'teria';
         if(word !== null){
             setWordArray(word.split(''));
         }
@@ -32,17 +32,17 @@ const GameLine = (props) => {
             }
         }
 
-        if(wordExists === false){
-            console.log("You guessed wrong! Setting border red");
-            setBoxBorder('4px solid red');
-            setTimeout(() => {
-                console.log("Setting right again")
-                setBoxBorder('none');
-                const resetFocus = document.getElementById(`box${lineIndex}-1`);
-                resetFocus.focus();
-            }, 1000);
-        }
-        else{
+        // if(wordExists === false){
+            // console.log("You guessed wrong! Setting border red");
+            // setBoxBorder('4px solid red');
+            // setTimeout(() => {
+            //     console.log("Setting right again")
+            //     setBoxBorder('none');
+            //     const resetFocus = document.getElementById(`box${lineIndex}-1`);
+            //     resetFocus.focus();
+            // }, 1000);
+        // }
+        // else{
             
             setFirstLetter(userGuess[0]);
             setSecondLetter(userGuess[1]);
@@ -56,7 +56,7 @@ const GameLine = (props) => {
                 if(splitTry[i] === wordArray[i]){
                     colors[i] = 'green';
                 }
-                else if((wordArray.indexOf(splitTry[i]) !== -1) && !findDuplicate(wordArray, splitTry[i])){
+                else if(wordArray.indexOf(splitTry[i]) !== -1){
                     colors[i] = 'yellow';
                 }
                 else{
@@ -64,23 +64,48 @@ const GameLine = (props) => {
                 }
             }
 
+            // This is to fix the duplicate letters bug
+            for(let i = 0; i < colors.length; i++){
+                if(colors[i] === 'yellow'){
+                    const indexOnWord = [];
+                    var idxW = wordArray.indexOf(splitTry[i]);
+                    while (idxW !== -1) {
+                        indexOnWord.push(idxW);
+                        idxW = wordArray.indexOf(splitTry[i], idxW + 1);
+                    }
+                    const indexOnTry = [];
+                    var idxT = splitTry.indexOf(splitTry[i]);
+                    while (idxT !== -1) {
+                        indexOnTry.push(idxT);
+                        idxT = splitTry.indexOf(splitTry[i], idxT + 1);
+                    }
+                    if(indexOnTry.length > indexOnWord.length){
+                        console.log("Temos um problema com esta letra")
+                        console.log("On Word:" + indexOnWord);
+                        console.log("On Try:" + indexOnTry);
+                        const arrayToChange = [...indexOnTry];
+
+                        console.log("Array to change: " + arrayToChange);
+                        console.log(indexOnWord.length)
+                        for(let i = 0; i < indexOnWord.length; i++){
+                            const toExtract = indexOnWord[i]
+                            arrayToChange.splice(arrayToChange.indexOf(toExtract), 1);
+                        }   
+                        console.log("Array to change after: " + arrayToChange);
+                        for(let i = 0; i < arrayToChange.length; i++){
+                            colors[arrayToChange[i]] = 'red';
+                        }
+                    }
+                }
+            }
+
             setColorsArray(colors);
             setColorsArray(colors);
             setIsDisabled(true);
 
-        }
+        // }
     }
 
-    const findDuplicate = (array, value) => {
-        for(let i = 0; i < array.length; i++){
-            if(array[i] === value){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    }
 
     const [firstLetter, setFirstLetter] = useState(null);
     const [secondLetter, setSecondLetter] = useState(null);

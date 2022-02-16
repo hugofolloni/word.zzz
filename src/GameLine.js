@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 const GameLine = (props) => {
 
+    const everyWordArray = props.everyWordArray;
+
     const [wordArray, setWordArray] = useState([]);
     useEffect(() => {
         const word = props.word;
@@ -13,37 +15,60 @@ const GameLine = (props) => {
     }, [props.word]);
 
     const lineIndex = props.index;
-    
   
     const checkTry = () => {
         var colors = ["", "", "", "", ""];
-        const splitTry = wordsArray;
+        const splitTry = tryArray;
         const userGuess = splitTry;
 
-        setFirstLetter(userGuess[0]);
-        setSecondLetter(userGuess[1]);
-        setThirdLetter(userGuess[2]);
-        setFourthLetter(userGuess[3]);
-        setFifthLetter(userGuess[4]);
+        const stringTry = tryArray.join('');
+        console.log(stringTry);
 
-        console.log(splitTry);
-        
-        for(let i = 0; i < wordArray.length; i++){
-            if(splitTry[i] === wordArray[i]){
-                colors[i] = 'green';
-            }
-            else if((wordArray.indexOf(splitTry[i]) !== -1) && !findDuplicate(wordArray, splitTry[i])){
-                colors[i] = 'yellow';
-            }
-            else{
-                colors[i] = 'red';
+        var wordExists = false;
+
+        for(let i = 0; i < everyWordArray.length; i++){
+            if(everyWordArray[i] === stringTry){
+                wordExists = true;
             }
         }
 
-        setColorsArray(colors);
-        setColorsArray(colors);
-        setIsDisabled(true);
+        if(wordExists === false){
+            console.log("You guessed wrong! Setting border red");
+            setBoxBorder('4px solid red');
+            setTimeout(() => {
+                console.log("Setting right again")
+                setBoxBorder('none');
+                const resetFocus = document.getElementById(`box${lineIndex}-1`);
+                resetFocus.focus();
+            }, 1000);
+        }
+        else{
+            
+            setFirstLetter(userGuess[0]);
+            setSecondLetter(userGuess[1]);
+            setThirdLetter(userGuess[2]);
+            setFourthLetter(userGuess[3]);
+            setFifthLetter(userGuess[4]);
 
+            console.log(splitTry);
+            
+            for(let i = 0; i < wordArray.length; i++){
+                if(splitTry[i] === wordArray[i]){
+                    colors[i] = 'green';
+                }
+                else if((wordArray.indexOf(splitTry[i]) !== -1) && !findDuplicate(wordArray, splitTry[i])){
+                    colors[i] = 'yellow';
+                }
+                else{
+                    colors[i] = 'red';
+                }
+            }
+
+            setColorsArray(colors);
+            setColorsArray(colors);
+            setIsDisabled(true);
+
+        }
     }
 
     const findDuplicate = (array, value) => {
@@ -67,6 +92,8 @@ const GameLine = (props) => {
     const [colorsArray, setColorsArray] = useState([]); 
 
     const [isDisabled, setIsDisabled] = useState(false);
+    
+    const [boxBorder, setBoxBorder] = useState('none');
 
     const BoxesDiv = styled.div`
         display: flex;
@@ -89,6 +116,14 @@ const GameLine = (props) => {
         text-align: center;
         color: white;
         background-color: #2e2e2e;
+        cursor: pointer;
+        outline: none;
+        border: ${boxBorder};
+        &:focus {
+            border-style: inset;
+            border-color: white;
+            border-width: 1px 1px 5px 1px;
+        }
     `
     
     const Box1 = styled(Box)`
@@ -111,13 +146,24 @@ const GameLine = (props) => {
         background-color: ${colorsArray[4]};
     `
 
-    const wordsArray = [" ", " ", " ", " ", " "];
+    const tryArray = [" ", " ", " ", " ", " "];
 
     const handleNextInput = (e) => {
         if(e.target.value.length === 1){
             const fieldName = parseInt(e.target.id.split('-')[1]);
-            wordsArray[fieldName - 1] = e.target.value.toUpperCase();
+            tryArray[fieldName - 1] = e.target.value.toLowerCase();
             const nextSibiling = document.getElementById(`box${lineIndex}-${parseInt(fieldName) + 1}`);
+            if(nextSibiling !== null){
+                nextSibiling.focus();
+            }
+        }
+    }
+
+    const handleDelete = (e) => {
+        if(e.target.value.length === 0 && e.key === "Backspace"){
+            const fieldName = parseInt(e.target.id.split('-')[1]);
+            tryArray[fieldName - 1] = e.target.value.toLowerCase();
+            const nextSibiling = document.getElementById(`box${lineIndex}-${parseInt(fieldName) - 1}`);
             if(nextSibiling !== null){
                 nextSibiling.focus();
             }
@@ -127,11 +173,11 @@ const GameLine = (props) => {
 
     return ( 
         <BoxesDiv>
-            <Box1 type="text" id={ `box${lineIndex}-1`} disabled={isDisabled} value={firstLetter} onChange={(e) => handleNextInput(e) } maxLength='1' /> 
-            <Box2 type="text" id={ `box${lineIndex}-2`} disabled={isDisabled} value={secondLetter} onChange={(e) => handleNextInput(e) } maxLength='1'/>
-            <Box3 type="text" id={ `box${lineIndex}-3`} disabled={isDisabled} value={thirdLetter} onChange={(e) => handleNextInput(e) } maxLength='1' /> 
-            <Box4 type="text" id={ `box${lineIndex}-4`} disabled={isDisabled} value={fourthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  />
-            <Box5 type="text" id={ `box${lineIndex}-5`} disabled={isDisabled} value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1' onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } }/>
+            <Box1 type="text" id={ `box${lineIndex}-1`} disabled={isDisabled} value={firstLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off"  onKeyDown={(e) => handleDelete(e)}/> 
+            <Box2 type="text" id={ `box${lineIndex}-2`} disabled={isDisabled} value={secondLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
+            <Box3 type="text" id={ `box${lineIndex}-3`} disabled={isDisabled} value={thirdLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/> 
+            <Box4 type="text" id={ `box${lineIndex}-4`} disabled={isDisabled} value={fourthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
+            <Box5 type="text" id={ `box${lineIndex}-5`} disabled={isDisabled} value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)} onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } }/>
         </BoxesDiv>   
     );
 }

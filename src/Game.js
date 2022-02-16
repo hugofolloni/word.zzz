@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import GameLine from './GameLine.js';
-import styled from 'styled-components';
+import GameArea from './GameArea.js';
 
 const jsonFile = require('./wordszzz.json');
 
@@ -8,7 +7,14 @@ const Game = () => {
 
   const [word, setWord] = useState(null);
 
+  const everyWordArray = [];
+
+  for(let i = 0; i < jsonFile.length; i++){
+    everyWordArray.push(jsonFile[i].Name);
+  }
+
   useEffect(() => {
+
     var wordsArray = [];
 
     for(let i = 0; i < jsonFile.length; i++){
@@ -19,25 +25,13 @@ const Game = () => {
         
     const num = Math.floor(Math.random() * wordsArray.length);
     const theWord = wordsArray[num].toString();
-    setWord(theWord.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+    setWord(theWord.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
   }, []);
 
-  const GameArea = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    `
-
     return ( 
-        <GameArea>
-          <GameLine word={word} index={1}/>
-          <GameLine word={word} index={2}/>
-          <GameLine word={word} index={3}/>
-          <GameLine word={word} index={4}/>
-          <GameLine word={word} index={5}/>
-          <GameLine word={word} index={6}/>
-        </GameArea>
+      <div className="container">
+         <GameArea word={word} everyWordArray={everyWordArray} />
+      </div>
      );
 }
  

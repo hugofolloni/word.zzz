@@ -30,18 +30,16 @@ const Game = () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 60%;
-    height: 60%;
     `
 
     return ( 
         <GameArea>
-          <GameLine word={word} />
-          <GameLine word={word} />
-          <GameLine word={word} />
-          <GameLine word={word} />
-          <GameLine word={word} />
-          <GameLine word={word} />
+          <GameLine word={word} index={1}/>
+          <GameLine word={word} index={2}/>
+          <GameLine word={word} index={3}/>
+          <GameLine word={word} index={4}/>
+          <GameLine word={word} index={5}/>
+          <GameLine word={word} index={6}/>
         </GameArea>
      );
 }

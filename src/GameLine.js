@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, createRef, useState } from 'react';
 import styled from 'styled-components';
 
 const GameLine = (props) => {
@@ -11,6 +11,8 @@ const GameLine = (props) => {
             setWordArray(word.split(''));
         }
     }, [props.word]);
+
+    const lineIndex = props.index;
     
   
     const checkTry = () => {
@@ -92,31 +94,43 @@ const GameLine = (props) => {
         background-color: ${colorsArray[4]};
     `
 
-    const Button = styled.button`
-        display: flex;
-        border: 1px solid black;
-        border-radius: 10px;
-        margin: 5px;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        padding: 10px 20px;
-        text-align: center;
-        color: white;
-        background-color: #2e2e2e;
-        cursor: pointer;
-        `
+    const handleNextInput = (e) => {
+        console.log("ID atual: " + e.target.id);
+        const fieldName = parseInt(e.target.id.split('-')[1]);
+        console.log(fieldName)
+        if(fieldName === 1){
+            setFirstLetter(e.target.value);
+            console.log(fieldName)
+        }
+        else if(fieldName === 2){
+            setSecondLetter(e.target.value);
+        }
+        else if(fieldName === 3){
+            setThirdLetter(e.target.value);
+        }
+        else if(fieldName === 4){
+            setFourthLetter(e.target.value);
+        }
+        else if(fieldName === 5){
+            setFifthLetter(e.target.value);
+        }
 
+        // I promise that i tried switch case :c
+
+        const nextSibiling = document.getElementById(`box${lineIndex}-${parseInt(fieldName) + 1}`);
+
+        console.log(nextSibiling);
+        nextSibiling.focus();
+    }
 
 
     return ( 
         <BoxesDiv>
-            <Box1 type="text" disabled={isDisabled} onChange={(e) => setFirstLetter(e.target.value)} value={firstLetter} /> 
-            <Box2 type="text" disabled={isDisabled} onChange={(e) => setSecondLetter(e.target.value) } value={secondLetter} />
-            <Box3 type="text" disabled={isDisabled} onChange={(e) => setThirdLetter(e.target.value)} value={thirdLetter} /> 
-            <Box4 type="text" disabled={isDisabled} onChange={(e) => setFourthLetter(e.target.value)} value={fourthLetter} />
-            <Box5 type="text" disabled={isDisabled} onChange={(e) => setFifthLetter(e.target.value)} value={fifthLetter} />
-            <Button disabled={isDisabled} onClick={ () => checkTry() }>Try</Button>
+            <Box1 type="text" id={ `box${lineIndex}-1`} disabled={isDisabled} value={firstLetter} maxLength='1' onChange={(e) => setFirstLetter(e.target.value) } onKeyUp={(e) => handleNextInput(e)} /> 
+            <Box2 type="text" id={ `box${lineIndex}-2`} disabled={isDisabled} onChange={(e) => setSecondLetter(e.target.value) } value={secondLetter}  maxLength='1' onKeyPress={(e) => handleNextInput(e)}/>
+            <Box3 type="text" id={ `box${lineIndex}-3`} disabled={isDisabled} onChange={(e) => { handleNextInput(e); setThirdLetter(e.target.value)} } maxLength='1' value={thirdLetter} /> 
+            <Box4 type="text" id={ `box${lineIndex}-4`} disabled={isDisabled} onChange={(e) => setFourthLetter(e.target.value) } maxLength='1' value={fourthLetter} />
+            <Box5 type="text" id={ `box${lineIndex}-5`} disabled={isDisabled} onChange={(e) => setFifthLetter(e.target.value)} value={fifthLetter} maxLength='1' onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } }/>
         </BoxesDiv>  
     );
 }

@@ -34,6 +34,9 @@ const GameLine = (props) => {
         }
         console.log(stringToCompare)
         setColorsArray(colors);
+
+        setIsDisabled(true);
+
     }
 
     const [firstLetter, setFirstLetter] = useState(null);
@@ -43,6 +46,8 @@ const GameLine = (props) => {
     const [fifthLetter, setFifthLetter] = useState(null);
 
     const [colorsArray, setColorsArray] = useState([]); 
+
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const BoxesDiv = styled.div`
         display: flex;
@@ -64,21 +69,54 @@ const GameLine = (props) => {
         font-size: 30px;
         text-align: center;
         color: white;
-        background-color: #1c1c1c;
+        background-color: #2e2e2e;
     `
     
     const Box1 = styled(Box)`
         background-color: ${colorsArray[0]};
     `
 
+    const Box2 = styled(Box)`
+        background-color: ${colorsArray[1]};
+    `
+
+    const Box3 = styled(Box)`
+        background-color: ${colorsArray[2]};
+    `
+
+    const Box4 = styled(Box)`
+        background-color: ${colorsArray[3]};
+    `
+
+    const Box5 = styled(Box)`
+        background-color: ${colorsArray[4]};
+    `
+
+    const Button = styled.button`
+        display: flex;
+        border: 1px solid black;
+        border-radius: 10px;
+        margin: 5px;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        padding: 10px 20px;
+        text-align: center;
+        color: white;
+        background-color: #2e2e2e;
+        cursor: pointer;
+        `
+
+
+
     return ( 
         <BoxesDiv>
-            <Box1 type="text" onChange={(e) => setFirstLetter(e.target.value)}/> 
-            <Box type="text" onChange={(e) => setSecondLetter(e.target.value)} />
-            <Box type="text" onChange={(e) => setThirdLetter(e.target.value)} /> 
-            <Box type="text" onChange={(e) => setFourthLetter(e.target.value)}/>
-            <Box type="text" onChange={(e) => setFifthLetter(e.target.value)}/>
-            <button onClick={ () => checkTry() }>Try</button>
+            <Box1 type="text" disabled={isDisabled} onChange={(e) => setFirstLetter(e.target.value)} value={firstLetter} /> 
+            <Box2 type="text" disabled={isDisabled} onChange={(e) => setSecondLetter(e.target.value) } value={secondLetter} />
+            <Box3 type="text" disabled={isDisabled} onChange={(e) => setThirdLetter(e.target.value)} value={thirdLetter} /> 
+            <Box4 type="text" disabled={isDisabled} onChange={(e) => setFourthLetter(e.target.value)} value={fourthLetter} />
+            <Box5 type="text" disabled={isDisabled} onChange={(e) => setFifthLetter(e.target.value)} value={fifthLetter} />
+            <Button disabled={isDisabled} onClick={ () => checkTry() }>Try</Button>
         </BoxesDiv>  
     );
 }

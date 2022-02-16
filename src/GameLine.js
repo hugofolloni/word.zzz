@@ -63,6 +63,8 @@ const GameLine = (props) => {
         justify-content: center;
         font-size: 30px;
         text-align: center;
+        color: white;
+        background-color: #1c1c1c;
     `
     
     const Box1 = styled(Box)`

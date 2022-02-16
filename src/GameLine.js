@@ -7,7 +7,7 @@ const GameLine = (props) => {
 
     const [wordArray, setWordArray] = useState([]);
     useEffect(() => {
-        const word = 'teria';
+        const word = props.word;
         if(word !== null){
             setWordArray(word.split(''));
         }

@@ -20,10 +20,7 @@ const Game = () => {
     const num = Math.floor(Math.random() * wordsArray.length);
     const theWord = wordsArray[num].toString();
     setWord(theWord.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-    console.log(theWord);
   }, []);
-
-  console.log("Re-render")
 
   const GameArea = styled.div`
     display: flex;

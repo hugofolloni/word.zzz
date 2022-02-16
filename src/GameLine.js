@@ -32,17 +32,17 @@ const GameLine = (props) => {
             }
         }
 
-        // if(wordExists === false){
-            // console.log("You guessed wrong! Setting border red");
-            // setBoxBorder('4px solid red');
-            // setTimeout(() => {
-            //     console.log("Setting right again")
-            //     setBoxBorder('none');
-            //     const resetFocus = document.getElementById(`box${lineIndex}-1`);
-            //     resetFocus.focus();
-            // }, 1000);
-        // }
-        // else{
+        if(wordExists === false){
+            console.log("You guessed wrong! Setting border red");
+            setBoxBorder('4px solid red');
+            setTimeout(() => {
+                console.log("Setting right again")
+                setBoxBorder('none');
+                const resetFocus = document.getElementById(`box${lineIndex}-1`);
+                resetFocus.focus();
+            }, 1000);
+        }
+        else{
             
             setFirstLetter(userGuess[0]);
             setSecondLetter(userGuess[1]);
@@ -103,7 +103,7 @@ const GameLine = (props) => {
             setColorsArray(colors);
             setIsDisabled(true);
 
-        // }
+        }
     }
 
 

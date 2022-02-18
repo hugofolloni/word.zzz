@@ -1,6 +1,5 @@
 import GameLine from './GameLine.js';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
 
 const GameArea = (props) => {
 

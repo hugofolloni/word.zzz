@@ -1,6 +1,7 @@
 import Game from './Game.js';
 import Header from './Header.js';
 import Homepage from './Homepage.js';
+import Daily from './Daily.js';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Homepage />} />
           <Route exact path='/puzzles' element={<Game />} />
+          <Route exact path='/daily' element={<Daily />} />
         </Routes>
       </div>
     </Router>

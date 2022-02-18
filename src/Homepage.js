@@ -74,6 +74,10 @@ const Homepage = () => {
         window.location.href = '/puzzles';
     }
 
+    const handleDaily = () => {
+        window.location.href = '/daily';
+    }
+
     return ( 
         <div className="homepage-div" style={ { display: 'flex', flexDirection: 'column', alignItems: 'center', height: '80vh', justifyContent: 'space-around'} }>
             <Tutorial>
@@ -100,7 +104,7 @@ const Homepage = () => {
             </Tutorial>
             <div className="game-choose" style={ { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' } }>
                 <Button onClick={ handlePuzzles }>Puzzles</Button>
-                <Button>Diário</Button>
+                <Button onClick={ handleDaily }>Diário</Button>
             </div>
         </div>
      );

@@ -1,5 +1,6 @@
 import GameLine from './GameLine.js';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 
 const GameArea = (props) => {
 
@@ -15,14 +16,21 @@ const GameArea = (props) => {
         height: 70vh;
     `
 
+    localStorage.setItem("userGames", JSON.stringify(['t', 'x', 'x', 'x', 'x', 'x']));
+
+    window.addEventListener('load', () => {
+      const setFocus = document.getElementById(`box0-1`);
+      setFocus.focus();
+    });
+    
     return ( 
         <GameArea>
-          <GameLine word={word} index={1} everyWordArray={everyWordArray}/>
-          <GameLine word={word} index={2} everyWordArray={everyWordArray}/>
-          <GameLine word={word} index={3} everyWordArray={everyWordArray}/>
-          <GameLine word={word} index={4} everyWordArray={everyWordArray}/>
-          <GameLine word={word} index={5} everyWordArray={everyWordArray}/>
-          <GameLine word={word} index={6} everyWordArray={everyWordArray}/>
+          <GameLine word={word} index={0} everyWordArray={everyWordArray} />
+          <GameLine word={word} index={1} everyWordArray={everyWordArray} />
+          <GameLine word={word} index={2} everyWordArray={everyWordArray} />
+          <GameLine word={word} index={3} everyWordArray={everyWordArray} />
+          <GameLine word={word} index={4} everyWordArray={everyWordArray} />
+          <GameLine word={word} index={5} everyWordArray={everyWordArray} />
         </GameArea>
      );
 }

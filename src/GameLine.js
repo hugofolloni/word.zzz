@@ -5,6 +5,10 @@ const GameLine = (props) => {
 
     const everyWordArray = props.everyWordArray;
 
+    const [endMessage, setEndMessage] = useState(null);
+
+    const [showMessage, setShowMessage] = useState(false);
+    
     const [wordArray, setWordArray] = useState([]);
     useEffect(() => {
         const word = props.word;
@@ -82,9 +86,38 @@ const GameLine = (props) => {
                 }
             }
 
+            const userGames = JSON.parse(localStorage.getItem("userGames"));
+
+            if(colors.indexOf("#7a0606") === -1 && colors.indexOf("#ab9807") === -1){
+                userGames[lineIndex] = "v";
+                setTimeout(() => {
+                    setEndMessage("Você venceu!");
+                    setShowMessage(true);
+                }, 1000);
+            }
+            else{
+                userGames[lineIndex] = "f";
+                if(userGames[lineIndex] !== 5){
+                    userGames[lineIndex + 1] = "t";
+                    const nextFocus = document.getElementById(`box${lineIndex + 1}-1`);
+                    if(nextFocus !== null){
+                        nextFocus.focus();
+                    }
+                }
+            }
+
+            if(userGames[5] === "f"){
+                setTimeout(() => {
+                    setEndMessage("Você perdeu!");
+                    setShowMessage(true);
+                }, 1000);
+            }
+
+            localStorage.setItem("userGames", JSON.stringify(userGames));
+
             setColorsArray(colors);
-            setColorsArray(colors);
-            setIsDisabled(true);
+           
+            setIsDisabled('none');
 
         }
     }
@@ -96,12 +129,13 @@ const GameLine = (props) => {
     const [fourthLetter, setFourthLetter] = useState(null);
     const [fifthLetter, setFifthLetter] = useState(null);
 
-
     const [colorsArray, setColorsArray] = useState([]); 
 
     const [isDisabled, setIsDisabled] = useState(false);
     
     const [boxBorder, setBoxBorder] = useState('none');
+
+
 
     const BoxesDiv = styled.div`
         display: flex;
@@ -127,6 +161,7 @@ const GameLine = (props) => {
         cursor: pointer;
         outline: none;
         border: ${boxBorder};
+        pointer-events: ${isDisabled};
         &:focus {
             border-style: inset;
             border-color: white;
@@ -154,6 +189,55 @@ const GameLine = (props) => {
         background-color: ${colorsArray[4]};
     `
 
+    const Message = styled.div`
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 400px;
+        padding: 30px;
+        top: 30%;
+        font-size: 20px;
+        font-family: 'Roboto', sans-serif;
+        background-color: white;
+        color: black;
+        border-radius: 10px;
+        @media (max-width: 800px) {
+            width: 60vw;
+        }
+
+    `
+
+    const Button = styled.button`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #1c1c1c;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        width: 200px;
+        margin: 10px;
+        font-size: 15px;
+        cursor: pointer;
+        outline: none;
+        transition: 0.3s ease all;
+        &:hover {
+            background-color: #3f3f3f;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 800px) {
+            width: 90px;
+            height: 50px;
+            font-size: 14px;
+        }
+    `
+
+
     const tryArray = [" ", " ", " ", " ", " "];
 
     const handleNextInput = (e) => {
@@ -177,15 +261,35 @@ const GameLine = (props) => {
             }
         }
     }
+    
+    const handleDisabling = (target) => {
+        const userGames = JSON.parse(localStorage.getItem("userGames"))
+
+        if(userGames[lineIndex] !== "t") {
+            setIsDisabled('none');
+        }
+        else{
+            setIsDisabled('all');
+            const setFocus = document.getElementById(target);
+            setFocus.focus();
+        }
+    }
 
 
     return ( 
         <BoxesDiv>
-            <Box1 type="text" id={ `box${lineIndex}-1`} disabled={isDisabled} value={firstLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off"  onKeyDown={(e) => handleDelete(e)}/> 
-            <Box2 type="text" id={ `box${lineIndex}-2`} disabled={isDisabled} value={secondLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
-            <Box3 type="text" id={ `box${lineIndex}-3`} disabled={isDisabled} value={thirdLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/> 
-            <Box4 type="text" id={ `box${lineIndex}-4`} disabled={isDisabled} value={fourthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
-            <Box5 type="text" id={ `box${lineIndex}-5`} disabled={isDisabled} value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)} onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } }/>
+            <Box1 type="text" id={ `box${lineIndex}-1`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={firstLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off"  onKeyDown={(e) => handleDelete(e)}/> 
+            <Box2 type="text" id={ `box${lineIndex}-2`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={secondLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
+            <Box3 type="text" id={ `box${lineIndex}-3`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={thirdLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/> 
+            <Box4 type="text" id={ `box${lineIndex}-4`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fourthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
+            <Box5 type="text" id={ `box${lineIndex}-5`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)} onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } }/>
+            {showMessage && <Message>
+                <h2 style={ { fontSize: '28px', fontWeight: '600', display: 'flex', width: '100%', justifyContent: 'flex-start' } }>{ endMessage }</h2>
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-around'}}>
+                    <p style={ { fontSize: '15px' } }>A palavra era: <strong>{props.word}</strong></p>
+                    <Button onClick={ () => window.location.reload() }>Jogar novamente</Button>
+                </div>
+            </Message>}
         </BoxesDiv>   
     );
 }

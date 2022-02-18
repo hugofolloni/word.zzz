@@ -24,14 +24,10 @@ const GameLine = (props) => {
 
         var wordExists = false;
 
-        for(let i = 0; i < everyWordArray.length; i++){
-            if(everyWordArray[i] === stringTry){
-                wordExists = true;
-            }
-        }
+        if(everyWordArray.includes(stringTry)) wordExists = true;
 
         if(wordExists === false){
-            setBoxBorder('4px solid red');
+            setBoxBorder('4px solid #7a0606');
             setTimeout(() => {
                 setBoxBorder('none');
                 const resetFocus = document.getElementById(`box${lineIndex}-1`);
@@ -48,19 +44,19 @@ const GameLine = (props) => {
             
             for(let i = 0; i < wordArray.length; i++){
                 if(splitTry[i] === wordArray[i]){
-                    colors[i] = 'green';
+                    colors[i] = '#148f0b';
                 }
                 else if(wordArray.indexOf(splitTry[i]) !== -1){
-                    colors[i] = 'yellow';
+                    colors[i] = '#ab9807';
                 }
                 else{
-                    colors[i] = 'red';
+                    colors[i] = '#7a0606';
                 }
             }
 
             // This is to fix the duplicate letters bug
             for(let i = 0; i < colors.length; i++){
-                if(colors[i] === 'yellow'){
+                if(colors[i] === '#ab9807'){
                     const indexOnWord = [];
                     var idxW = wordArray.indexOf(splitTry[i]);
                     while (idxW !== -1) {
@@ -80,7 +76,7 @@ const GameLine = (props) => {
                             arrayToChange.splice(arrayToChange.indexOf(toExtract), 1);
                         }   
                         for(let i = 0; i < arrayToChange.length; i++){
-                            colors[arrayToChange[i]] = 'red';
+                            colors[arrayToChange[i]] = '#7a0606';
                         }
                     }
                 }

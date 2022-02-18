@@ -1,13 +1,20 @@
 import Game from './Game.js';
+import Header from './Header.js';
+import Homepage from './Homepage.js';
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App" style={ {display: 'flex', flexDirection: 'column', justifyContent: 'center', maxWidth: '100vw', maxHeight: '100vh'} }>
-      <header className="App-header">
-        <h1>word.zzz</h1>
-      </header>
-      <Game />
-    </div>
+    <Router>
+      <div className="App" style={ {display: 'flex', flexDirection: 'column', justifyContent: 'center', maxWidth: '100vw', maxHeight: '100vh'} }>
+        <Header />
+        <Routes>
+          <Route exact path='/' element={<Homepage />} />
+          <Route exact path='/puzzles' element={<Game />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

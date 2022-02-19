@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 const GameLine = (props) => {
 
@@ -15,6 +17,7 @@ const GameLine = (props) => {
         if(word !== null){
             setWordArray(word.split(''));
         }
+        console.log(word);
     }, [props.word]);
 
     const lineIndex = props.index;
@@ -205,7 +208,9 @@ const GameLine = (props) => {
         border-radius: 10px;
         @media (max-width: 800px) {
             width: 60vw;
+            top: 40%;
         }
+        z-index: 0;
 
     `
 
@@ -231,7 +236,7 @@ const GameLine = (props) => {
         }
 
         @media (max-width: 800px) {
-            width: 90px;
+            width: 110px;
             height: 50px;
             font-size: 14px;
         }
@@ -275,6 +280,10 @@ const GameLine = (props) => {
         }
     }
 
+    const handleChangeVisibility = () => {
+        setShowMessage(false);
+    }
+
 
     return ( 
         <BoxesDiv>
@@ -282,8 +291,9 @@ const GameLine = (props) => {
             <Box2 type="text" id={ `box${lineIndex}-2`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={secondLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
             <Box3 type="text" id={ `box${lineIndex}-3`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={thirdLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/> 
             <Box4 type="text" id={ `box${lineIndex}-4`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fourthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
-            <Box5 type="text" id={ `box${lineIndex}-5`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)} onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } }/>
+            <Box5 type="text" id={ `box${lineIndex}-5`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)} onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } } enterKeyHint="done" />
             {showMessage && <Message>
+                <FontAwesomeIcon icon={ faEyeSlash } style={ { fontSize: '21px', fontWeight: '500', display: 'flex', width: '100%', justifyContent: 'flex-end', marginLeft: '90%', cursor: 'pointer' } }  onClick={ handleChangeVisibility }/>
                 <h2 style={ { fontSize: '28px', fontWeight: '600', display: 'flex', width: '100%', justifyContent: 'flex-start' } }>{ endMessage }</h2>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-around'}}>
                     <p style={ { fontSize: '15px' } }>A palavra era: <strong>{props.word}</strong></p>

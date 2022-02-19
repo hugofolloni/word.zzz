@@ -8,3 +8,8 @@ Já no diário, a cada 24h é gerada uma palavra nova, e o usuário pode publica
 
 ## 📚 O que ainda falta
 Ainda falta terminar o modo diário, que está em fase inicial de desenvolvimento.
+
+### Live:
+
+Você pode ver o projeto rodando [aqui](https://wordzzz.netlify.app)!
+

@@ -20,7 +20,7 @@ const GameLine = (props) => {
         if(word !== null){
             setWordArray(word.split(''));
         }
-        console.log(word);
+
     }, [props.word]);
 
     const lineIndex = props.index;
@@ -317,8 +317,9 @@ const GameLine = (props) => {
             font-weight: ${miniButtonWeight};
         }
         @media (max-width: 800px) {
-            width: 30px;
-            font-size: 8px;
+            width: 70px;
+            height: 30px;
+            font-size: 10px;
         }
     `
 
@@ -350,7 +351,7 @@ const GameLine = (props) => {
                     <p style={ { fontSize: '15px' } }>A palavra era: <strong>{props.word}</strong></p>
                     <Button onClick={ () => window.location.reload() }>Jogar novamente</Button>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px', alignItems:'center', justifyContent:'space-around', width:'50%', marginLeft:'-40%'}}>
+                <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px', alignItems:'center', justifyContent:'space-around', width:'75%', marginLeft:'-30%'}}>
                     <p style= {{ fontSize: '15px' }}>Jogos: { numberOfWins }/{ numberOfGames }</p>
                     <MiniButton disabled={ miniButtonState } onClick={ resetScore }>Zerar</MiniButton>
                 </div>

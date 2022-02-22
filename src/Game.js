@@ -11,6 +11,11 @@ const Game = () => {
 
   const everyWordArray = [];
 
+  if(localStorage.getItem('games') === null) {
+    localStorage.setItem('games', 0);
+    localStorage.setItem('wins', 0);
+  }
+
   for(let i = 0; i < jsonFile.length; i++){
     everyWordArray.push(jsonFile[i].Name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
   }

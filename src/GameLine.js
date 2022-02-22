@@ -10,6 +10,9 @@ const GameLine = (props) => {
     const [endMessage, setEndMessage] = useState(null);
 
     const [showMessage, setShowMessage] = useState(false);
+
+    const [numberOfGames, setNumberOfGames] = useState(0);
+    const [numberOfWins, setNumberOfWins] = useState(0);
     
     const [wordArray, setWordArray] = useState([]);
     useEffect(() => {
@@ -93,6 +96,14 @@ const GameLine = (props) => {
 
             if(colors.indexOf("#7a0606") === -1 && colors.indexOf("#ab9807") === -1){
                 userGames[lineIndex] = "v";
+                const oldGames = localStorage.getItem('games');
+                const oldWins = localStorage.getItem('wins');
+                const nGames = parseInt(oldGames) + 1;
+                const nWins = parseInt(oldWins) + 1;
+                localStorage.setItem('games', nGames);
+                localStorage.setItem('wins', nWins);
+                setNumberOfGames(nGames);
+                setNumberOfWins(nWins);
                 setTimeout(() => {
                     setEndMessage("Você venceu!");
                     setShowMessage(true);
@@ -110,6 +121,14 @@ const GameLine = (props) => {
             }
 
             if(userGames[5] === "f"){
+                const oldGames = localStorage.getItem('games');
+                const oldWins = localStorage.getItem('wins');
+                const nGames = parseInt(oldGames) + 1;
+                const nWins = parseInt(oldWins);
+                localStorage.setItem('games', nGames);
+                localStorage.setItem('wins', nWins);
+                setNumberOfGames(nGames);
+                setNumberOfWins(nWins);
                 setTimeout(() => {
                     setEndMessage("Você perdeu!");
                     setShowMessage(true);
@@ -242,7 +261,6 @@ const GameLine = (props) => {
         }
     `
 
-
     const tryArray = [" ", " ", " ", " ", " "];
 
     const handleNextInput = (e) => {
@@ -284,6 +302,39 @@ const GameLine = (props) => {
         setShowMessage(false);
     }
 
+    const [miniButtonColor, setMiniButtonColor] = useState('#1c1c1c');
+    const [miniButtonHoverSpacing, setMiniButtonHoverSpacing] = useState('0.5px');
+    const [miniButtonWeight, setMiniButtonWeight] = useState('bold');
+    const [miniButtonCursor, setMiniButtonCursor] = useState('pointer');
+
+    const MiniButton = styled(Button)`
+        background-color: ${miniButtonColor};
+        width: 80px;
+        font-size: 10px;
+        cursor: ${miniButtonCursor};
+        &:hover {
+            letter-spacing: ${miniButtonHoverSpacing};
+            font-weight: ${miniButtonWeight};
+        }
+        @media (max-width: 800px) {
+            width: 30px;
+            font-size: 8px;
+        }
+    `
+
+    const [miniButtonState, setMiniButtonState] = useState(false);
+
+    const resetScore = () => {
+        localStorage.setItem('games', 0);
+        localStorage.setItem('wins', 0);
+        setNumberOfGames(0);
+        setNumberOfWins(0);
+        setMiniButtonState(true);
+        setMiniButtonColor('#3f3f3f');
+        setMiniButtonHoverSpacing('normal');
+        setMiniButtonWeight('normal');
+        setMiniButtonCursor('default');
+    }
 
     return ( 
         <BoxesDiv>
@@ -298,6 +349,10 @@ const GameLine = (props) => {
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-around'}}>
                     <p style={ { fontSize: '15px' } }>A palavra era: <strong>{props.word}</strong></p>
                     <Button onClick={ () => window.location.reload() }>Jogar novamente</Button>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px', alignItems:'center', justifyContent:'space-around', width:'50%', marginLeft:'-40%'}}>
+                    <p style= {{ fontSize: '15px' }}>Jogos: { numberOfWins }/{ numberOfGames }</p>
+                    <MiniButton disabled={ miniButtonState } onClick={ resetScore }>Zerar</MiniButton>
                 </div>
             </Message>}
         </BoxesDiv>   

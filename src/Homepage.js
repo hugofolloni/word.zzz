@@ -74,8 +74,12 @@ const Homepage = () => {
         window.location.href = '/puzzles';
     }
 
-    const handleDaily = () => {
-        window.location.href = '/daily';
+    const handleSix = () => {
+        window.location.href = '/6';
+    }
+
+    const handleSeven = () => {
+        window.location.href = '/7';
     }
 
     return ( 
@@ -98,13 +102,14 @@ const Homepage = () => {
                     </SingleExemplo>
                 </div>
                 <p>As palavras não possuem acentos ou cedilha. Elas podem possuir letras repetidas.</p>
-                <p>Possuímos dois modos de jogo: no diário, tenta acertar a palavra de hoje. Em puzzles, a cada entrada será uma palavra aleatória.</p>
+                <p>Possuímos três modos de jogo: o mais comum, Puzzles, com 5 letras, mas também temos o modo para 6 ou 7 letras.</p>
                 <p>Este jogo foi criado por <a href='https://github.com/hugofolloni' style= {{ textDecoration: 'none', fontWeight: '600', color: 'white'}}>Hugo Folloni</a>.</p>
                 <p>Divirta-se!</p>
             </Tutorial>
             <div className="game-choose" style={ { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' } }>
                 <Button onClick={ handlePuzzles }>Puzzles</Button>
-                <Button onClick={ handleDaily }>Diário</Button>
+                <Button onClick={ handleSix }>Sexteto</Button>
+                <Button onClick={ handleSeven }>Septeto</Button>
             </div>
         </div>
      );

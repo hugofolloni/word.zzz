@@ -5,7 +5,8 @@ const GameArea = (props) => {
 
     const word = props.word;
     const everyWordArray = props.everyWordArray;
-
+    const utf8Word = props.utf8Word;
+    
     const GameArea = styled.div`
         display: flex;
         flex-direction: column;
@@ -24,12 +25,12 @@ const GameArea = (props) => {
     
     return ( 
         <GameArea>
-          <GameLine word={word} index={0} everyWordArray={everyWordArray} />
-          <GameLine word={word} index={1} everyWordArray={everyWordArray} />
-          <GameLine word={word} index={2} everyWordArray={everyWordArray} />
-          <GameLine word={word} index={3} everyWordArray={everyWordArray} />
-          <GameLine word={word} index={4} everyWordArray={everyWordArray} />
-          <GameLine word={word} index={5} everyWordArray={everyWordArray} />
+          <GameLine word={word} index={0} everyWordArray={everyWordArray} utf8Word={utf8Word} />
+          <GameLine word={word} index={1} everyWordArray={everyWordArray} utf8Word={utf8Word}/>
+          <GameLine word={word} index={2} everyWordArray={everyWordArray} utf8Word={utf8Word}/>
+          <GameLine word={word} index={3} everyWordArray={everyWordArray} utf8Word={utf8Word}/>
+          <GameLine word={word} index={4} everyWordArray={everyWordArray} utf8Word={utf8Word}/>
+          <GameLine word={word} index={5} everyWordArray={everyWordArray} utf8Word={utf8Word}/>
         </GameArea>
      );
 }

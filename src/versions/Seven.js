@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
-import GameArea from './GameArea.js';
+import SevenGameArea from './SevenGameArea.js';
 
 import styled from 'styled-components';
 
-const jsonFile = require('./wordszzz.json');
+const jsonFile = require('../scripts/words7.json');
 
-const Game = () => {
+const Seven = () => {
 
   const [word, setWord] = useState(null);
   const [utf8Word, setUtf8Word] = useState(null);
 
   const everyWordArray = [];
 
-  if(localStorage.getItem('games') === null) {
-    localStorage.setItem('games', 0);
-    localStorage.setItem('wins', 0);
+  if(localStorage.getItem('games7') === null) {
+    localStorage.setItem('games7', 0);
+    localStorage.setItem('wins7', 0);
   }
+
 
   for(let i = 0; i < jsonFile.length; i++){
     everyWordArray.push(jsonFile[i].Name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
@@ -47,9 +48,9 @@ const Game = () => {
 
     return ( 
       <Container>
-         <GameArea word={word} everyWordArray={everyWordArray} utf8Word={utf8Word}/>
+         <SevenGameArea word={word} everyWordArray={everyWordArray} utf8Word={utf8Word} />
       </Container>
      );
 }
  
-export default Game;
+export default Seven;

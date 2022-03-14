@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
-const GameLine = (props) => {
+const SevenGameLine = (props) => {
 
     const everyWordArray = props.everyWordArray;
 
@@ -11,8 +11,8 @@ const GameLine = (props) => {
 
     const [showMessage, setShowMessage] = useState(false);
 
-    const [numberOfGames, setNumberOfGames] = useState(0);
-    const [numberOfWins, setNumberOfWins] = useState(0);
+    const [numberOfGames7, setNumberOfGames7] = useState(0);
+    const [numberOfWins7, setNumberOfWins7] = useState(0);
     
     const [wordArray, setWordArray] = useState([]);
     useEffect(() => {
@@ -26,7 +26,7 @@ const GameLine = (props) => {
     const lineIndex = props.index;
   
     const checkTry = () => {
-        var colors = ["", "", "", "", ""];
+        var colors = ["", "", "", "", "", "", ""];
         const splitTry = tryArray;
         const userGuess = splitTry;
 
@@ -51,6 +51,8 @@ const GameLine = (props) => {
             setThirdLetter(userGuess[2]);
             setFourthLetter(userGuess[3]);
             setFifthLetter(userGuess[4]);
+            setSixthLetter(userGuess[5]);
+            setSeventhLetter(userGuess[6]);
             
             for(let i = 0; i < wordArray.length; i++){
                 if(splitTry[i] === wordArray[i]){
@@ -92,27 +94,27 @@ const GameLine = (props) => {
                 }
             }
 
-            const userGames = JSON.parse(localStorage.getItem("userGames"));
+            const user7Games = JSON.parse(localStorage.getItem("user7Games"));
 
             if(colors.indexOf("#7a0606") === -1 && colors.indexOf("#ab9807") === -1){
-                userGames[lineIndex] = "v";
-                const oldGames = localStorage.getItem('games');
-                const oldWins = localStorage.getItem('wins');
-                const nGames = parseInt(oldGames) + 1;
-                const nWins = parseInt(oldWins) + 1;
-                localStorage.setItem('games', nGames);
-                localStorage.setItem('wins', nWins);
-                setNumberOfGames(nGames);
-                setNumberOfWins(nWins);
+                user7Games[lineIndex] = "v";
+                const oldGames7 = localStorage.getItem('games7');
+                const oldWins7 = localStorage.getItem('wins7');
+                const nGames7 = parseInt(oldGames7) + 1;
+                const nWins7 = parseInt(oldWins7) + 1;
+                localStorage.setItem('games7', nGames7);
+                localStorage.setItem('wins7', nWins7);
+                setNumberOfGames7(nGames7);
+                setNumberOfWins7(nWins7);
                 setTimeout(() => {
                     setEndMessage("Você venceu!");
                     setShowMessage(true);
                 }, 1000);
             }
             else{
-                userGames[lineIndex] = "f";
-                if(userGames[lineIndex] !== 5){
-                    userGames[lineIndex + 1] = "t";
+                user7Games[lineIndex] = "f";
+                if(user7Games[lineIndex] !== 5){
+                    user7Games[lineIndex + 1] = "t";
                     const nextFocus = document.getElementById(`box${lineIndex + 1}-1`);
                     if(nextFocus !== null){
                         nextFocus.focus();
@@ -120,22 +122,22 @@ const GameLine = (props) => {
                 }
             }
 
-            if(userGames[5] === "f"){
-                const oldGames = localStorage.getItem('games');
-                const oldWins = localStorage.getItem('wins');
-                const nGames = parseInt(oldGames) + 1;
-                const nWins = parseInt(oldWins);
-                localStorage.setItem('games', nGames);
-                localStorage.setItem('wins', nWins);
-                setNumberOfGames(nGames);
-                setNumberOfWins(nWins);
+            if(user7Games[7] === "f"){
+                const oldGames7 = localStorage.getItem('games7');
+                const oldWins7 = localStorage.getItem('wins7');
+                const nGames7 = parseInt(oldGames7) + 1;
+                const nWins7 = parseInt(oldWins7);
+                localStorage.setItem('games7', nGames7);
+                localStorage.setItem('wins7', nWins7);
+                setNumberOfGames7(nGames7);
+                setNumberOfWins7(nWins7);
                 setTimeout(() => {
                     setEndMessage("Você perdeu!");
                     setShowMessage(true);
                 }, 1000);
             }
 
-            localStorage.setItem("userGames", JSON.stringify(userGames));
+            localStorage.setItem("user7Games", JSON.stringify(user7Games));
 
             setColorsArray(colors);
            
@@ -150,6 +152,8 @@ const GameLine = (props) => {
     const [thirdLetter, setThirdLetter] = useState(null);
     const [fourthLetter, setFourthLetter] = useState(null);
     const [fifthLetter, setFifthLetter] = useState(null);
+    const [sixthLetter, setSixthLetter] = useState(null);
+    const [seventhLetter, setSeventhLetter] = useState(null);
 
     const [colorsArray, setColorsArray] = useState([]); 
 
@@ -211,6 +215,14 @@ const GameLine = (props) => {
         background-color: ${colorsArray[4]};
     `
 
+    const Box6 = styled(Box)`
+        background-color: ${colorsArray[5]};
+    `
+
+    const Box7 = styled(Box)`
+        background-color: ${colorsArray[6]};
+    `
+
     const Message = styled.div`
         display: flex;
         position: absolute;
@@ -261,7 +273,7 @@ const GameLine = (props) => {
         }
     `
 
-    const tryArray = [" ", " ", " ", " ", " "];
+    const tryArray = [" ", " ", " ", " ", " ", " ", " "];
 
     const handleNextInput = (e) => {
         if(e.target.value.length === 1){
@@ -326,10 +338,10 @@ const GameLine = (props) => {
     const [miniButtonState, setMiniButtonState] = useState(false);
 
     const resetScore = () => {
-        localStorage.setItem('games', 0);
-        localStorage.setItem('wins', 0);
-        setNumberOfGames(0);
-        setNumberOfWins(0);
+        localStorage.setItem('Games7', 0);
+        localStorage.setItem('Wins7', 0);
+        setNumberOfGames7(0);
+        setNumberOfWins7(0);
         setMiniButtonState(true);
         setMiniButtonColor('#3f3f3f');
         setMiniButtonHoverSpacing('normal');
@@ -343,7 +355,10 @@ const GameLine = (props) => {
             <Box2 type="text" id={ `box${lineIndex}-2`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={secondLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
             <Box3 type="text" id={ `box${lineIndex}-3`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={thirdLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)}/> 
             <Box4 type="text" id={ `box${lineIndex}-4`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fourthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
-            <Box5 type="text" id={ `box${lineIndex}-5`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)} onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } } enterKeyHint="done" />
+            <Box5 type="text" id={ `box${lineIndex}-5`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={fifthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
+            <Box6 type="text" id={ `box${lineIndex}-6`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={sixthLetter} onChange={(e) => handleNextInput(e) } maxLength='1'  autoComplete="off" onKeyDown={(e) => handleDelete(e)}/>
+            <Box7 type="text" id={ `box${lineIndex}-7`} tabIndex="-1" onClick={ (e) => handleDisabling(e.target.id) } value={seventhLetter} onChange={(e) => handleNextInput(e) } maxLength='1' autoComplete="off" onKeyDown={(e) => handleDelete(e)} onKeyPress={ (e) => { if(e.key === "Enter"){checkTry()} } } enterKeyHint="done" />
+            
             {showMessage && <Message>
                 <FontAwesomeIcon icon={ faEyeSlash } style={ { fontSize: '21px', fontWeight: '500', display: 'flex', width: '100%', justifyContent: 'flex-end', marginLeft: '90%', cursor: 'pointer' } }  onClick={ handleChangeVisibility }/>
                 <h2 style={ { fontSize: '28px', fontWeight: '600', display: 'flex', width: '100%', justifyContent: 'flex-start' } }>{ endMessage }</h2>
@@ -352,7 +367,7 @@ const GameLine = (props) => {
                     <Button onClick={ () => window.location.reload() }>Jogar novamente</Button>
                 </div>
                 <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px', alignItems:'center', justifyContent:'space-around', width:'75%', marginLeft:'-30%'}}>
-                    <p style= {{ fontSize: '15px' }}>Jogos: { numberOfWins }/{ numberOfGames }</p>
+                    <p style= {{ fontSize: '15px' }}>Jogos: { numberOfWins7 }/{ numberOfGames7 }</p>
                     <MiniButton disabled={ miniButtonState } onClick={ resetScore }>Zerar</MiniButton>
                 </div>
             </Message>}
@@ -361,4 +376,4 @@ const GameLine = (props) => {
 }
  
 
-export default GameLine;
+export default SevenGameLine;

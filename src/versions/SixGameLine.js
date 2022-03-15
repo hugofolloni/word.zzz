@@ -292,9 +292,11 @@ const SixGameLine = (props) => {
     }
     
     const handleDisabling = (target) => {
-        const userGames = JSON.parse(localStorage.getItem("userGames"))
+        const user6Games = JSON.parse(localStorage.getItem("user6Games"))
+        
+        console.log(target, lineIndex, user6Games[lineIndex])
 
-        if(userGames[lineIndex] !== "t") {
+        if(user6Games[lineIndex] !== "t") {
             setIsDisabled('none');
         }
         else{

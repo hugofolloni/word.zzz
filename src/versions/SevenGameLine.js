@@ -298,9 +298,9 @@ const SevenGameLine = (props) => {
     }
     
     const handleDisabling = (target) => {
-        const userGames = JSON.parse(localStorage.getItem("userGames"))
+        const user7Games = JSON.parse(localStorage.getItem("userGames"))
 
-        if(userGames[lineIndex] !== "t") {
+        if(user7Games[lineIndex] !== "t") {
             setIsDisabled('none');
         }
         else{

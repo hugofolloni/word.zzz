@@ -7,8 +7,6 @@ const SixGameArea = (props) => {
     const everyWordArray = props.everyWordArray;
     const utf8Word = props.utf8Word;
 
-    console.log(utf8Word)
-
     const GameArea = styled.div`
         display: flex;
         flex-direction: column;
